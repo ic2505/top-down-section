@@ -1,6 +1,6 @@
 
 #ifndef BASE_CHARACTER_H // prevents redefinition of classes: define if not already defined
-#define BASE_CHARACTER_H
+#define BASE_CHARACTER_H // this is called conditional compilation
 #include "raylib.h"
 
 class BaseCharacter
@@ -10,6 +10,7 @@ public:
     Vector2 getWorldPos() { return worldPos; }
     void undoMovement();
     Rectangle getCollisionRec();
+    virtual void tick(float deltaTime); //virtual specifies that the function can be overridden
 protected:
     Texture2D texture{LoadTexture("characters/knight_idle_spritesheet.png")};
     Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};
