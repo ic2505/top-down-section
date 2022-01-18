@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "Character.h"
+#include "Prop.h"
 
 int main()
 {
@@ -9,7 +10,6 @@ int main()
     int windowDimensions[2];
     windowDimensions[0] = 384;
     windowDimensions[1] = 384;
-
 
     // initialize the window
     InitWindow(windowDimensions[0], windowDimensions[1], "Ilker's Top-Down");
@@ -21,6 +21,9 @@ int main()
     // init knight as class character 
     Character knight(windowDimensions[0], windowDimensions[1]);
 
+    // init prop
+    Prop rock{Vector2{250.f, 250.f}, LoadTexture("nature_tileset/Rock.png")};
+
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -28,10 +31,14 @@ int main()
         BeginDrawing();
         ClearBackground(WHITE);
 
+        // mapPos = -knight.worldPos
         mapPos = Vector2Scale(knight.getWorldPos(), -1.f);
 
         // draw the map
         DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
+
+        // draw Prop rock
+        rock.Render(knight.getWorldPos());
 
         knight.tick(GetFrameTime());
 
