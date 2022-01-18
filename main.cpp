@@ -29,11 +29,11 @@ int main()
     };
 
     // init goblin
-    Enemy goblin(
+    Enemy goblin{
         Vector2{}, 
         LoadTexture("characters/goblin_idle_spritesheet.png"), 
         LoadTexture("characters/goblin_run_spritesheet.png")
-        );
+    };
 
 
     SetTargetFPS(60);
