@@ -9,6 +9,7 @@ class Character : public BaseCharacter
 public:
     Character( int winWidth, int winHeight);
     virtual void tick(float deltaTime) override; // tick is now an override of the parent version in BaseCharacter
+    Vector2 getScreenPos() { return screenPos; }
 private:
     
 };
