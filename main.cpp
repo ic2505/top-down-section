@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "Prop.h"
 #include "Enemy.h"
+#include <string>
 
 int main()
 {
@@ -55,6 +56,20 @@ int main()
         {
             prop.Render(knight.getWorldPos());
         }
+
+        if (!knight.getAlive()) // if character is not alive
+        {
+            DrawText("Game Over!", 55.f, 45.f, 40, RED);
+            EndDrawing();
+            continue;
+        }
+        else // character is alive
+        {
+            std::string knightsHealth = "Health: ";
+            knightsHealth.append( std::to_string(knight.getHealth()), 0, 5 ); // 0 = starting point, 5 = number of characters i.e. 4 digits + decimal point. 
+            DrawText(knightsHealth.c_str(), 55.f, 45.f, 40, RED ); // DrawText needs a c string, hence .c_str 
+        }
+        
         
         knight.tick(GetFrameTime());
     
