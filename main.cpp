@@ -20,23 +20,34 @@ int main()
     Texture2D map = LoadTexture("nature_tileset/OpenWorldMap24x24.png");
     Vector2 mapPos{0.0, 0.0};
 
-    // init knight as class character 
+    // init knight as class character
     Character knight{windowDimensions[0], windowDimensions[1]};
 
     // init props
     Prop props[2]{
         Prop{Vector2{600.f, 300.f}, LoadTexture("nature_tileset/Rock.png")},
-        Prop{Vector2{400.f, 500.f}, LoadTexture("nature_tileset/Log.png")}
-    };
+        Prop{Vector2{400.f, 500.f}, LoadTexture("nature_tileset/Log.png")}};
 
     // init goblin
     Enemy goblin{
-        Vector2{}, 
-        LoadTexture("characters/goblin_idle_spritesheet.png"), 
-        LoadTexture("characters/goblin_run_spritesheet.png")
-    };
-    goblin.setTarget(&knight);
+        Vector2{800.f, 300.f},
+        LoadTexture("characters/goblin_idle_spritesheet.png"),
+        LoadTexture("characters/goblin_run_spritesheet.png")};
 
+    // init slime
+    Enemy slime{
+        Vector2{500.f, 700.f},
+        LoadTexture("characters/slime_idle_spritesheet.png"),
+        LoadTexture("characters/slime_run_spritesheet.png")};
+
+    Enemy *enemies[]{
+        &goblin,
+        &slime};
+
+    for (auto enemy : enemies)
+    {
+        enemy->setTarget(&knight);
+    }
 
     SetTargetFPS(60);
     while (!WindowShouldClose())
@@ -66,16 +77,15 @@ int main()
         else // character is alive
         {
             std::string knightsHealth = "Health: ";
-            knightsHealth.append( std::to_string(knight.getHealth()), 0, 5 ); // 0 = starting point, 5 = number of characters i.e. 4 digits + decimal point. 
-            DrawText(knightsHealth.c_str(), 55.f, 45.f, 40, RED ); // DrawText needs a c string, hence .c_str 
+            knightsHealth.append(std::to_string(knight.getHealth()), 0, 5); // 0 = starting point, 5 = number of characters i.e. 4 digits + decimal point.
+            DrawText(knightsHealth.c_str(), 55.f, 45.f, 40, RED);           // DrawText needs a c string, hence .c_str
         }
-        
-        
+
         knight.tick(GetFrameTime());
-    
-        // check map bounds 
-        if (knight.getWorldPos().x < 0.f || 
-            knight.getWorldPos().y < 0.f || 
+
+        // check map bounds
+        if (knight.getWorldPos().x < 0.f ||
+            knight.getWorldPos().y < 0.f ||
             knight.getWorldPos().x + windowDimensions[0] > map.width * mapScale ||
             knight.getWorldPos().y + windowDimensions[1] > map.height * mapScale)
         {
@@ -85,23 +95,27 @@ int main()
         // check prop collisions
         for (auto prop : props)
         {
-            if ( CheckCollisionRecs(prop.getCollisionRec(knight.getWorldPos()), knight.getCollisionRec()) )
+            if (CheckCollisionRecs(prop.getCollisionRec(knight.getWorldPos()), knight.getCollisionRec()))
             {
                 knight.undoMovement();
             }
         }
 
+        for (auto enemy : enemies)
+        {
+            enemy->tick(GetFrameTime());
+        }
+
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) // IsMouseButtonPressed is different to IsMouseButtonDown. It returns true the first frame and then false.
         {
-            if ( CheckCollisionRecs(goblin.getCollisionRec(), knight.getWeaponCollisionRec()))
+            for (auto enemy : enemies)
             {
-                goblin.setAlive(false);
+                if (CheckCollisionRecs(enemy->getCollisionRec(), knight.getWeaponCollisionRec()))
+                {
+                    enemy->setAlive(false);
+                }
             }
         }
-        
-
-        goblin.tick(GetFrameTime());
-        
 
         // stop drawing
         EndDrawing();
