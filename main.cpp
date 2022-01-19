@@ -76,6 +76,15 @@ int main()
             }
         }
 
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) // IsMouseButtonPressed is different to IsMouseButtonDown. It returns true the first frame and then false.
+        {
+            if ( CheckCollisionRecs(goblin.getCollisionRec(), knight.getWeaponCollisionRec()))
+            {
+                goblin.setAlive(false);
+            }
+        }
+        
+
         goblin.tick(GetFrameTime());
         
 

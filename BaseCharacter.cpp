@@ -21,6 +21,7 @@ Rectangle BaseCharacter::getCollisionRec()
 
 void BaseCharacter::tick(float deltaTime)
 {
+    if (!getAlive()) return; // this ends the function if not alive
     worldPosLastFrame = worldPos;
 
     // update animation frame

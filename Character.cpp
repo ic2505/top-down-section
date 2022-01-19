@@ -42,7 +42,7 @@ void Character::tick(float deltaTime)
             weapon.width * scale,
             weapon.height * scale
         };
-        rotation = 35.f;
+        IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? rotation = 35.f : rotation = 0.f; // ternary operator: if <case> ? (do this) : (else do this)
     }
     else
     {
@@ -54,7 +54,7 @@ void Character::tick(float deltaTime)
             weapon.width * scale,
             weapon.height * scale
         };
-        rotation = -35.f;
+        IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? rotation = -35.f : rotation = 0.f; // ternary operator: if <case> ? (do this) : (else do this)
     }
 
     // draw the sword

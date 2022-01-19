@@ -10,6 +10,7 @@ public:
     Character( int winWidth, int winHeight);
     virtual void tick(float deltaTime) override; // tick is now an override of the parent version in BaseCharacter
     virtual Vector2 getScreenPos() override;
+    Rectangle getWeaponCollisionRec() { return weaponCollisionRec; }
 private:
     int windowWidth{};
     int windowHeight{};
