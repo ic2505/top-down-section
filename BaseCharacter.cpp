@@ -13,8 +13,8 @@ void BaseCharacter::undoMovement()
 Rectangle BaseCharacter::getCollisionRec()
 {
     return Rectangle{
-        screenPos.x,
-        screenPos.y,
+        getScreenPos().x,
+        getScreenPos().y,
         width * scale,
         height * scale};
 }
@@ -56,8 +56,8 @@ void BaseCharacter::tick(float deltaTime)
                      rightLeft * width, // multiplying by rightLeft flips the image
                      height};
     Rectangle dest{// x&y are location we wish to draw the knight
-                   screenPos.x,
-                   screenPos.y,
+                   getScreenPos().x,
+                   getScreenPos().y,
                    scale * width,   // scaling the texture.
                    scale * height}; // Note .f notation casts value as float, just like (float)
     Vector2 origin{};

@@ -11,6 +11,10 @@ public:
     void undoMovement();
     Rectangle getCollisionRec();
     virtual void tick(float deltaTime); //virtual specifies that the function can be overridden
+    virtual Vector2 getScreenPos() = 0; // this is a pure virtual function: it is only declared in the parent, not defined. 
+    // Pure virtual functions are marked with = 0 and are only defined in child classes.
+    // the base character class is now said to be an ABSTRACT class, which means we cant create instances of it, we can only derive
+    // child classes from it. 
 protected:
     Texture2D texture{LoadTexture("characters/knight_idle_spritesheet.png")};
     Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};
