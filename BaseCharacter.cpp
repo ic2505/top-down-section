@@ -1,8 +1,8 @@
 #include "BaseCharacter.h"
+#include "raymath.h"
 
 BaseCharacter::BaseCharacter()
 {
-
 }
 
 void BaseCharacter::undoMovement()
@@ -16,8 +16,7 @@ Rectangle BaseCharacter::getCollisionRec()
         screenPos.x,
         screenPos.y,
         width * scale,
-        height * scale
-    };
+        height * scale};
 }
 
 void BaseCharacter::tick(float deltaTime)
@@ -35,6 +34,20 @@ void BaseCharacter::tick(float deltaTime)
             frame = 0;
         }
     }
+
+    if (Vector2Length(velocity) != 0.0)
+    {
+        // set worldPos = worldPos + velociyu  (were now moving the world in opposite velocity as the character)
+
+        worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed));
+        velocity.x < 0.f ? rightLeft = -1.f : rightLeft = 1.f; // shorthand for if else statement: ternary operator
+        texture = run;
+    }
+    else
+    {
+        texture = idle;
+    }
+    velocity = {};
 
     // draw the character
     Rectangle source{               // source gets the image from the texture and we will later have to cast it into dest
